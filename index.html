@@ -1,14 +1,16 @@
-<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Simple Captcha Solver</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG Captcha Solver</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="captcha-container">
-        <canvas id="captcha-canvas" width="150" height="50"></canvas>
-        <input type="text" id="captcha-input" placeholder="Enter captcha">
-        <button id="captcha-submit">Submit</button>
+    <div class="captcha-container">
+        <h2>Captcha Solver</h2>
+        <div id="captcha"></div>
+        <input type="text" id="captcha-input" placeholder="Enter Captcha">
+        <button id="captcha-button">Verify</button>
         <p id="captcha-result"></p>
     </div>
     <script src="main.js"></script>
