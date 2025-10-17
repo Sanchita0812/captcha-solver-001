@@ -1,18 +1,16 @@
-#captcha-container {
+.captcha-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 50px;
 }
 
-#captcha-canvas {
-    border: 1px solid black;
+#captcha {
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
 }
 
-#captcha-input {
+#captcha-result {
     margin-top: 10px;
-}
-
-#captcha-submit {
-    margin-top: 10px;
+    font-weight: bold;
 }
