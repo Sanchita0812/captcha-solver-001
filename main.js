@@ -1,37 +1,54 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const canvas = document.getElementById('captcha-canvas');
-    const input = document.getElementById('captcha-input');
-    const submit = document.getElementById('captcha-submit');
-    const result = document.getElementById('captcha-result');
-    let captchaText = '';
+document.addEventListener('DOMContentLoaded', () => {
+    const captchaElement = document.getElementById('captcha');
+    const captchaInputElement = document.getElementById('captcha-input');
+    const captchaButton = document.getElementById('captcha-button');
+    const captchaResult = document.getElementById('captcha-result');
+
+    let captchaText = generateCaptcha();
+    renderCaptcha(captchaText);
+
+    captchaButton.addEventListener('click', () => {
+        const enteredText = captchaInputElement.value;
+        if (enteredText === captchaText) {
+            captchaResult.textContent = 'Captcha Matched!';
+            captchaResult.style.color = 'green';
+            captchaText = generateCaptcha();
+            renderCaptcha(captchaText);
+            captchaInputElement.value = '';
+        } else {
+            captchaResult.textContent = 'Captcha Not Matched!';
+            captchaResult.style.color = 'red';
+        }
+    });
 
     function generateCaptcha() {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        captchaText = '';
+        let captcha = '';
         for (let i = 0; i < 6; i++) {
-            captchaText += characters.charAt(Math.floor(Math.random() * characters.length));
+            captcha += characters.charAt(Math.floor(Math.random() * characters.length));
         }
-
-        drawCaptcha(captchaText);
+        return captcha;
     }
 
-    function drawCaptcha(text) {
-        const ctx = canvas.getContext('2d');
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.font = '24px Arial';
-        ctx.fillStyle = 'black';
-        ctx.fillText(text, 10, 30);
+    function renderCaptcha(text) {
+        captchaElement.innerHTML = createSvgCaptcha(text);
     }
 
-    generateCaptcha();
+    function createSvgCaptcha(text) {
+        const width = 200;
+        const height = 50;
+        let svg = `<svg width="${width}" height="${height}">`;
+        svg += `<rect width="${width}" height="${height}" fill="#eee" />`;
 
-    submit.addEventListener('click', function() {
-        if (input.value === captchaText) {
-            result.textContent = 'Captcha correct!';
-        } else {
-            result.textContent = 'Captcha incorrect. Try again.';
-            generateCaptcha();
-            input.value = '';
+        for (let i = 0; i < text.length; i++) {
+            const x = (width / text.length) * i + 10;
+            const y = height / 2 + (Math.random() * 10 - 5);
+            const fontSize = 20 + (Math.random() * 5 - 2.5);
+            const rotate = Math.random() * 20 - 10;
+            svg += `<text x="${x}" y="${y}" font-size="${fontSize}" transform="rotate(${rotate}, ${x}, ${y})">${text[i]}</text>`;
         }
-    });
+
+        svg += '</svg>';
+        return svg;
+    }
 });
